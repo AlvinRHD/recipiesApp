@@ -13,7 +13,7 @@
         app:cardBackgroundColor="@color/yellow"
         android:layout_margin="10sp"
         app:cardCornerRadius="10sp"
-        app:cardElevation="10sp">
+        app:cardElevation="5sp">
         
         <RelativeLayout
             android:layout_width="match_parent"
