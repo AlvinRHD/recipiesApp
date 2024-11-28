@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    tools:context=".SplashActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Todas las Recetas"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-black"
+        android:padding="10sp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
+        app:cardCornerRadius="10sp"
+        app:cardElevation="10sp"
+        >
+
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:theme="@style/ThemeOverlay.Search"
+            android:queryHint="Buscar recetas"
+            android:background="@drawable/search_bg"
+            android:iconifiedByDefault="false"
+            android:queryBackground="@color/transparent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_main_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="1"
+        android:layout_margin="10.00dp"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_rv_main_category"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Categorias nombre"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-black"
+        android:padding="10sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_sub_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="1"
+        android:layout_margin="10sp"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_rv_main_category"/>
+
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AppRecetas" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/brown</item>
+    </style>
+
+    <style name="Theme.AppRecetas" parent="Base.Theme.AppRecetas" />
+
+    <style name="ThemeOverlay.Search" parent="Theme.AppRecetas">
+        <!-- Customize your light theme here. -->
+        <item name="android:editTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/hintTextColor</item>
+
+    </style>
+</resources>
