@@ -7,6 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.apprecetas.entities.Category
+import com.example.apprecetas.interfaces.GetDataService
+import com.example.apprecetas.retofitclient.RetrofitClientInstance
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,5 +24,13 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    fun getCategories(){
+        val service = RetrofitClientInstance.retrofitInstance.create(GetDataService::class.java)
+        val call = service.getCategoryList()
+        call.enqueue(object : Callback<List<Category>>(){
+
+        })
     }
 }
