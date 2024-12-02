@@ -44,13 +44,23 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
+
+    //crop image library
+    implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+
+    //easy permissions
+    implementation("pub.devrel:easypermissions:3.0.0")
+
+    //coroutines core
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
+
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 }
-
-
-//retrofit
-//implementation "com.squareup.retrofit2:retrofit:2.9.0"
-//implementation "com.squareup.retrofit2:converter-gson:2.9.0"

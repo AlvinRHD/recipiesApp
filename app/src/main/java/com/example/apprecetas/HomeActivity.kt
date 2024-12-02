@@ -11,7 +11,7 @@ import com.example.apprecetas.adapter.MainCategoryAdapter
 import com.example.apprecetas.adapter.SubCategoryAdapter
 import com.example.apprecetas.entities.Recipes
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     var arrMainCategory = ArrayList<Recipes>()
     var arrSubCategory = ArrayList<Recipes>()

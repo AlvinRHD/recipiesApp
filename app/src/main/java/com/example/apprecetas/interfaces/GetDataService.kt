@@ -1,10 +1,11 @@
 package com.example.apprecetas.interfaces
 
-import android.telecom.Call
+
 import retrofit2.Call
 import com.example.apprecetas.entities.Category
+import retrofit2.http.GET
 
 interface GetDataService {
-    @GET( value "/categories.php")
-    fun getCategoryList(): Call<List<Category>>
+    @GET("categories.php")
+    fun getCategoryList(): Call<Category>
 }
