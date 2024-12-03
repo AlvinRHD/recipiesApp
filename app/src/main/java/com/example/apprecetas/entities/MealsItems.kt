@@ -20,17 +20,17 @@ data class MealsItems(
     val categoryName: String,
 
 
-    @ColumnInfo(name = "strmeal")
+    @ColumnInfo(name = "strMeal")
     @Expose
-    @SerializedName("strmeal")
-    val strmeal: String,
+    @SerializedName("strMeal")
+    val strMeal: String,
 
 
 
-    @ColumnInfo(name = "strmealthumb")
+    @ColumnInfo(name = "strMealThumb")
     @Expose
-    @SerializedName("strmealthumb")
-    val strmealthumb: String
+    @SerializedName("strMealThumb")
+    val strMealThumb: String
 
 )
 

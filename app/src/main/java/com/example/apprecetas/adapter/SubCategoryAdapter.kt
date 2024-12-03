@@ -1,24 +1,31 @@
 package com.example.apprecetas.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.apprecetas.R
 import com.example.apprecetas.entities.MealsItems
 import com.example.apprecetas.entities.Recipes
 
 
 class SubCategoryAdapter:RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHolder>() {
-    var ctx :Context? = null
+    var ctx : Context? = null
     var arrSubCategory = ArrayList<MealsItems>()
+
+    // ViewHolder
     class RecipeViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val tvDishName: TextView = view.findViewById(R.id.tv_dish_name) // Obtén el TextView
+        val tvDishName: TextView = view.findViewById(R.id.tv_dish_name)
+        val imgDish: ImageView = view.findViewById(R.id.img_dish)
     }
 
+    // Establecer los datos
     fun setData(arrData : List<MealsItems>){
-        arrSubCategory = arrData as ArrayList<MealsItems>
+        arrSubCategory =  ArrayList(arrData)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -31,10 +38,12 @@ class SubCategoryAdapter:RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHolde
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
+        val meal = arrSubCategory[position]
 
-        holder.itemView.tvDishName.text = arrSubCategory[position].strmeal
+        // Configurar el nombre del platillo
+        holder.tvDishName.text = meal.strMeal ?: "Sin nombre"
 
-        Glide.with(ctx!!).load(arrSubCategory[position].strMealThumb).into(holder.itemView.img_dish)
+        Glide.with(ctx!!).load(arrSubCategory[position].strMealThumb).into(holder.imgDish)
 
     }
 }

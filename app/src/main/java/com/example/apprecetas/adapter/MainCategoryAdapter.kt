@@ -1,10 +1,13 @@
 package com.example.apprecetas.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.apprecetas.R
 import com.example.apprecetas.entities.CategoryItems
 import com.example.apprecetas.entities.Recipes
@@ -12,11 +15,13 @@ import com.example.apprecetas.entities.Recipes
 
 class MainCategoryAdapter:RecyclerView.Adapter<MainCategoryAdapter.RecipeViewHolder>() {
 
+
     var listener: OnItemClickListener? = null
     var ctx: Context? = null
     var arrMainCategory = ArrayList<CategoryItems>()
     class RecipeViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val tvDishName: TextView = view.findViewById(R.id.tv_dish_name) // Obtén el TextView
+        val tvDishName: TextView = view.findViewById(R.id.tv_dish_name)
+        val imgDish: ImageView = view.findViewById(R.id.img_dish)
     }
 
     fun setData(arrData : List<CategoryItems>){
@@ -40,7 +45,7 @@ class MainCategoryAdapter:RecyclerView.Adapter<MainCategoryAdapter.RecipeViewHol
 
         holder.tvDishName.text = arrMainCategory[position].strcategory
 
-        Glide.with(ctx!!).load(arrMainCategory[position].strcategorythumb).into(holder.itemView.img_dish)
+        Glide.with(ctx!!).load(arrMainCategory[position].strcategorythumb).into(holder.imgDish)
         holder.itemView.rootView.setOnClickListener {
             listener!!.onClicked(arrMainCategory[position].strcategory)
         }

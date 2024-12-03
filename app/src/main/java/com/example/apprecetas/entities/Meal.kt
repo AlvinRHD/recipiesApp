@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "Meal")
+
 data class Meal(
 
     @PrimaryKey(autoGenerate = true)
@@ -18,8 +19,6 @@ data class Meal(
     @Expose
     @SerializedName("meals")
     @TypeConverters(MealListConverter::class)
-    val mealsItem: List<MealsItem>? = null
-
-
+    val mealsItem: List<MealsItems>? = null
 )
 

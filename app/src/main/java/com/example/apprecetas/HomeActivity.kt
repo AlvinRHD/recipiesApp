@@ -1,8 +1,9 @@
 package com.example.apprecetas
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,12 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.apprecetas.adapter.MainCategoryAdapter
 import com.example.apprecetas.adapter.SubCategoryAdapter
 import com.example.apprecetas.database.RecipeDatabase
-import com.example.apprecetas.entities.Category
+
 import com.example.apprecetas.entities.CategoryItems
 import com.example.apprecetas.entities.MealsItems
-import com.example.apprecetas.entities.Recipes
+
+import kotlinx.coroutines.launch
+
 
 class HomeActivity : BaseActivity() {
+
+    private lateinit var rvMainCategory: RecyclerView
+    private lateinit var rvSubCategory: RecyclerView
+    private lateinit var tvCategory: TextView
 
     var arrMainCategory = ArrayList<CategoryItems>()
     var arrSubCategory = ArrayList<MealsItems>()
@@ -34,8 +41,10 @@ class HomeActivity : BaseActivity() {
         }
 
         // Vincula los RecyclerView con sus IDs
-        val rvMainCategory = findViewById<RecyclerView>(R.id.rv_main_category)
-        val rvSubCategory = findViewById<RecyclerView>(R.id.rv_sub_category)
+        rvMainCategory = findViewById(R.id.rv_main_category)
+        rvSubCategory = findViewById(R.id.rv_sub_category)
+        tvCategory = findViewById(R.id.tvCategory)
+
 
         getDataFromDb()
 
@@ -44,19 +53,22 @@ class HomeActivity : BaseActivity() {
     }
 
     private val onCliked = object : MainCategoryAdapter.OnItemClickListener{
-        override fun onCliked(categoryName: String) {
+        override fun onClicked(categoryName: String) {
             getMealDataFromDb(categoryName)
         }
     }
 
     private fun getDataFromDb(){
-        Launch {
+        launch {
             this.let {
                 var cat = RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getAllCategory()
                 arrMainCategory = cat as ArrayList<CategoryItems>
                 arrMainCategory.reverse()
 
-                getMealDataFromDb(arrMainCategory[0].strcategory)
+                if (arrMainCategory.isNotEmpty()) {
+                    getMealDataFromDb(arrMainCategory[0].strcategory)
+                }
+
                 mainCategoryAdapter.setData(arrMainCategory)
                 rvMainCategory.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
                 rvMainCategory.adapter = mainCategoryAdapter
@@ -65,14 +77,14 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getMealDataFromDb(categoryName:String){
-        tvCategory.text = "$categoryName category"
-        Launch {
+        tvCategory.text = "$categoryName Category"
+        launch {
             this.let {
-                var cat = RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getSpecificMealList()
+                var cat = RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getSpecificMealList(categoryName)
                 arrSubCategory = cat as ArrayList<MealsItems>
                 subCategoryAdapter.setData(arrSubCategory)
-                rvsubCategory.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-                rvsubCategory.adapter = subCategoryAdapter
+                rvSubCategory.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+                rvSubCategory.adapter = subCategoryAdapter
             }
         }
     }

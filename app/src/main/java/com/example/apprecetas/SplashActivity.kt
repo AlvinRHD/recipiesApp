@@ -2,6 +2,7 @@ package com.example.apprecetas
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.apprecetas.database.RecipeDatabase
 import com.example.apprecetas.entities.Category
 import com.example.apprecetas.entities.Meal
+import com.example.apprecetas.entities.MealsItems
 import com.example.apprecetas.entities.Recipes
 import com.example.apprecetas.interfaces.GetDataService
 import com.example.apprecetas.retofitclient.RetrofitClientInstance
@@ -50,8 +52,6 @@ class SplashActivity : BaseActivity(), EasyPermissions.RationaleCallbacks, EasyP
         val call = service.getCategoryList()
         call.enqueue(object : Callback<Category>{
             override fun onFailure(call: Call<Category>, t: Throwable) {
-
-
                 Toast.makeText(this@SplashActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
 
@@ -98,8 +98,6 @@ class SplashActivity : BaseActivity(), EasyPermissions.RationaleCallbacks, EasyP
                     RecipeDatabase.getDatabase(this@SplashActivity)
                         .recipeDao().insertCategory(arr)
                 }
-
-
             }
         }
     }
@@ -107,15 +105,13 @@ class SplashActivity : BaseActivity(), EasyPermissions.RationaleCallbacks, EasyP
     fun insertMealDataIntoRoomDb(categoryName:String,meal: Meal?){
         launch {
             this.let{
-
-
                 for (arr in meal!!.mealsItem!!){
-                    var mealItemModel = arr.MealsItems(
+                    var mealItemModel = MealsItems(
                         arr.id,
                         arr.idMeal,
                         categoryName,
                         arr.strMeal,
-                        arr.strMealthumb
+                        arr.strMealThumb
                     )
                     RecipeDatabase.getDatabase(this@SplashActivity)
                         .recipeDao().insertMeal(mealItemModel)
