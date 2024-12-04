@@ -9,11 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.apprecetas.R
+import com.example.apprecetas.adapter.MainCategoryAdapter.OnItemClickListener
 import com.example.apprecetas.entities.MealsItems
 import com.example.apprecetas.entities.Recipes
 
 
 class SubCategoryAdapter:RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHolder>() {
+
+    var listener: SubCategoryAdapter.OnItemClickListener? = null
     var ctx : Context? = null
     var arrSubCategory = ArrayList<MealsItems>()
 
@@ -37,6 +40,10 @@ class SubCategoryAdapter:RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHolde
         return arrSubCategory.size
     }
 
+    fun setClickListener(listener1: SubCategoryAdapter.OnItemClickListener){
+        listener = listener1
+    }
+
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val meal = arrSubCategory[position]
 
@@ -45,5 +52,13 @@ class SubCategoryAdapter:RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHolde
 
         Glide.with(ctx!!).load(arrSubCategory[position].strMealThumb).into(holder.imgDish)
 
+        holder.itemView.rootView.setOnClickListener {
+            listener!!.onClicked(arrSubCategory[position].id)
+        }
+
+    }
+
+    interface OnItemClickListener{
+        fun onClicked(id:Int)
     }
 }
