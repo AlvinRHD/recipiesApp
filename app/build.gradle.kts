@@ -45,9 +45,12 @@ dependencies {
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
 
+
+
     //crop image library
     //implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
     implementation("com.github.yalantis:ucrop:2.2.7")
+
 
 
     //easy permissions
