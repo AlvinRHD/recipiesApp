@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -33,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -44,37 +48,40 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
-
-
-
-    //crop image library
-    //implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
-    implementation("com.github.yalantis:ucrop:2.2.7")
-
-
-
-    //easy permissions
-    implementation("pub.devrel:easypermissions:3.0.0")
-
-    //coroutines core
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-
-
-    //retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    //Glide
-    //implementation("com.github.bumptech.glide:glide:4.11.0")
-    //annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
-    implementation("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
-
-
-
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+
 }
+
+
+//crop image library
+//implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+//implementation("com.github.yalantis:ucrop:2.2.7")
+
+
+
+//easy permissions
+//implementation("pub.devrel:easypermissions:3.0.0")
+
+//coroutines core
+//implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
+//implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+
+//retrofit
+//implementation("com.squareup.retrofit2:retrofit:2.9.0")
+//implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+//Glide
+//implementation("com.github.bumptech.glide:glide:4.11.0")
+//annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
+//implementation("com.github.bumptech.glide:glide:4.15.1")
+//annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")

@@ -2,49 +2,45 @@ package com.example.apprecetas
 
 import android.os.Bundle
 import android.widget.Toast
-import com.example.apprecetas.entities.Category
-import com.example.apprecetas.entities.Meal
-import com.example.apprecetas.interfaces.GetDataService
-import com.example.apprecetas.retofitclient.RetrofitClientInstance
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.example.apprecetas.databinding.ActivityDetailBinding
+import com.example.apprecetas.models.RecipeModel
+import com.google.firebase.firestore.FirebaseFirestore
 
-
-class DetailActivity : BaseActivity() {
-
-    var id:Int= 0
-
+class DetailActivity : AppCompatActivity(){
+    private lateinit var binding: ActivityDetailBinding
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        var id = intent.getIntExtra("id", 0)
+        firestore = FirebaseFirestore.getInstance()
+        val recipeId = intent.getStringExtra("RECIPE_ID")
 
-
-
-
-
+        if (recipeId != null) {
+            loadRecipeDetails(recipeId)
+        } else {
+            Toast.makeText(this, "Error al cargar detalles", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    fun getCategories(){
-        val service = RetrofitClientInstance.retrofitInstance!!.create(GetDataService::class.java)
-        val call = service.getSpecificItem(id)
-        call.enqueue(object : Callback<Meal> {
-            override fun onFailure(call: Call<Category>, t: Throwable) {
-                Toast.makeText(this@DetailActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
+    private fun loadRecipeDetails(recipeId: String) {
+        firestore.collection("recipes").document(recipeId)
+            .get()
+            .addOnSuccessListener { document ->
+                val recipe = document.toObject(RecipeModel::class.java)
+                if (recipe != null) {
+                    binding.tvCategory.text = recipe.title
+                    Glide.with(this).load(recipe.imageUrl).into(binding.imgRecipe)
+                    binding.tvIngredientes.text = recipe.ingredients.joinToString("\n")
+                    binding.tvServing.text = "${recipe.servings} personas"
+                }
             }
-
-            override fun onResponse(
-                call: Call<Category>,
-                response: Response<Category>
-            ) {
-
-
+            .addOnFailureListener {
+                Toast.makeText(this, "Error al cargar receta", Toast.LENGTH_SHORT).show()
             }
-
-        })
     }
-
 }

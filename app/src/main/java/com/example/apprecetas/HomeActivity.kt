@@ -2,100 +2,107 @@ package com.example.apprecetas
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.apprecetas.adapter.MainCategoryAdapter
-import com.example.apprecetas.adapter.SubCategoryAdapter
-import com.example.apprecetas.database.RecipeDatabase
+import com.example.apprecetas.adapters.RecipeAdapter
+import com.example.apprecetas.databinding.ActivityHomeBinding
+import com.example.apprecetas.models.RecipeModel
+import com.google.firebase.firestore.FirebaseFirestore
 
-import com.example.apprecetas.entities.CategoryItems
-import com.example.apprecetas.entities.MealsItems
+class HomeActivity : AppCompatActivity() {
 
-import kotlinx.coroutines.launch
-
-
-class HomeActivity : BaseActivity() {
-
-    private lateinit var rvMainCategory: RecyclerView
-    private lateinit var rvSubCategory: RecyclerView
-    private lateinit var tvCategory: TextView
-
-    var arrMainCategory = ArrayList<CategoryItems>()
-    var arrSubCategory = ArrayList<MealsItems>()
-
-    var mainCategoryAdapter = MainCategoryAdapter()
-    var subCategoryAdapter = SubCategoryAdapter()
+    private lateinit var binding: ActivityHomeBinding
+    private lateinit var firestore: FirebaseFirestore
+    private val recipeList = mutableListOf<RecipeModel>()
+    private lateinit var mainAdapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Vincula los RecyclerView con sus IDs
-        rvMainCategory = findViewById(R.id.rv_main_category)
-        rvSubCategory = findViewById(R.id.rv_sub_category)
-        tvCategory = findViewById(R.id.tvCategory)
+        // Configurar Toolbar
+        setSupportActionBar(binding.toolbar)
 
+        firestore = FirebaseFirestore.getInstance()
 
-        getDataFromDb()
-
-        mainCategoryAdapter.setClickListener(onCliked)
-        subCategoryAdapter.setClickListener(onClikedSubItem)
-
-    }
-
-    private val onCliked = object : MainCategoryAdapter.OnItemClickListener{
-        override fun onClicked(categoryName: String) {
-            getMealDataFromDb(categoryName)
-        }
-    }
-
-    private val onClikedSubItem = object : SubCategoryAdapter.OnItemClickListener{
-        override fun onClicked(id:Int) {
-            var intent =Intent(this@HomeActivity,DetailActivity::class.java)
-            intent.putExtra("id",id)
+        // Configurar RecyclerView
+        mainAdapter = RecipeAdapter(recipeList) { recipe ->
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("RECIPE_ID", recipe.id)
             startActivity(intent)
         }
+
+        binding.rvMainCategory.apply {
+            layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = mainAdapter
+        }
+
+        // Cargar datos de Firebase
+        loadRecipes()
     }
 
-    private fun getDataFromDb(){
-        launch {
-            this.let {
-                var cat = RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getAllCategory()
-                arrMainCategory = cat as ArrayList<CategoryItems>
-                arrMainCategory.reverse()
 
-                if (arrMainCategory.isNotEmpty()) {
-                    getMealDataFromDb(arrMainCategory[0].strcategory)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favorites -> {
+                // Navegar a Favoritos
+                val intent = Intent(this, FavoritesActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_logout -> {
+                // Cerrar Sesión
+                logoutUser()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun loadRecipes() {
+        firestore.collection("recipes")
+            .get()
+            .addOnSuccessListener { documents ->
+                recipeList.clear()
+                for (doc in documents) {
+                    Log.d("Firestore", "Documento ID: ${doc.id}, Datos: ${doc.data}")
+                    val recipe = doc.toObject(RecipeModel::class.java).apply {
+                        id = doc.id
+                    }
+                    recipeList.add(recipe)
                 }
-
-                mainCategoryAdapter.setData(arrMainCategory)
-                rvMainCategory.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-                rvMainCategory.adapter = mainCategoryAdapter
+                mainAdapter.notifyDataSetChanged()
+                if (recipeList.isEmpty()) {
+                    Log.d("Firestore", "No hay recetas disponibles en la lista.")
+                }
             }
-        }
+            .addOnFailureListener {
+                Log.e("Firestore", "Error al cargar recetas", it)
+            }
+
     }
 
-    private fun getMealDataFromDb(categoryName:String){
-        tvCategory.text = "$categoryName Category"
-        launch {
-            this.let {
-                var cat = RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getSpecificMealList(categoryName)
-                arrSubCategory = cat as ArrayList<MealsItems>
-                subCategoryAdapter.setData(arrSubCategory)
-                rvSubCategory.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-                rvSubCategory.adapter = subCategoryAdapter
-            }
-        }
+    // Método para cerrar sesión
+    private fun logoutUser() {
+        // Agregar lógica para cerrar sesión (Firebase o SharedPreferences)
+        Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
+
 }

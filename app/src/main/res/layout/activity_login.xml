@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="@drawable/iniciar">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="300dp"
+            android:padding="20dp">
+
+            <EditText
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:id="@+id/login_email"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/login_borde"
+                android:padding="15dp"
+                android:hint="Email"
+                android:drawableLeft="@drawable/email"
+                android:drawablePadding="15dp"
+                android:textColor="@color/black">
+
+            </EditText>
+
+            <EditText
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:id="@+id/login_pwd"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_borde"
+                android:padding="15dp"
+                android:hint="Password"
+                android:drawableLeft="@drawable/pwd"
+                android:drawablePadding="15dp"
+                android:textColor="@color/black">
+
+            </EditText>
+
+
+
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:text="Iniciar"
+                android:id="@+id/inicioButton"
+                android:textSize="18sp"
+                android:background="@color/yellow2"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                >
+
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/log_redirigir"
+                android:text="No tienes cuenta? Crea una"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:textColor="@color/white">
+
+
+            </TextView>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
