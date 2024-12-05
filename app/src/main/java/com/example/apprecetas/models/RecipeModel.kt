@@ -1,13 +1,20 @@
 package com.example.apprecetas.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class RecipeModel (
-    var id: String = "",
-    var title: String = "",
-    var imageUrl: String = "",
-    var category: String = "",
-    var ingredients: List<String> = listOf(),
-    var instructions: List<String> = listOf(),
-    var time: Int = 0,
-    var calories: Int = 0,
-    var servings: Int = 0
-)
+    val category: String = "",
+    val id: String = "",
+    val imageUrl: String = "",
+    val ingredients: String = "",
+    val time: Int = 0,
+    val title: String = "",
+    val youtubeUrl: String = ""
+) : Parcelable
+
+
+
+

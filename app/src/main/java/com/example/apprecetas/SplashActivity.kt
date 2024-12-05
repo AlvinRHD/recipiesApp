@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 
+
         // Inicializar vistas
         val swipeHintText = findViewById<TextView>(R.id.tvSwipeHint)
         val bgImage = findViewById<ImageView>(R.id.bgImage)

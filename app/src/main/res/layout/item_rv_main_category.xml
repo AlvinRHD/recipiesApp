@@ -24,7 +24,7 @@
             <ImageView
                 android:layout_width="70sp"
                 android:layout_height="70sp"
-                android:id="@+id/img_dish"
+                android:id="@+id/imgRecipe"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="-15dp"
@@ -32,7 +32,7 @@
                 android:src="@drawable/dish"/>
 
             <TextView
-                android:id="@+id/tv_dish_name"
+                android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dish Name"
